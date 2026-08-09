@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campamento financiero</title>
+    <meta name="description" content="Descubre tu patrimonio neto con Azor, tu guía de expedición financiera pixel art.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="starsContainer" class="stars-container"></div>
+
+    <!-- ==================== PANTALLA 1: BIENVENIDA ==================== -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="welcome-mountains">
+            <div class="mountain mountain-far"></div>
+            <div class="mountain mountain-mid"></div>
+            <div class="mountain mountain-near"></div>
+            <div class="mountain mountain-extra"></div>
+        </div>
+
+        <div class="welcome-content">
+            <div class="logo-area">
+                <div class="logo-icon"><img src="assets/sprites/montain.png"></div>
+                <div class="logo-text">
+                    <span class="logo-main">CAMPAMENTO</span>
+                    <span class="logo-sub">FINANCIERO</span>
+                    <span class="logo-tagline">EXPEDICIÓN A TU LIBERTAD FINANCIERA</span>
+                </div>
+            </div>
+
+            <div class="welcome-card pixel-card">
+                <div class="azor-guide-area">
+                    <img src="assets/sprites/character.png" alt="Azor el guía" class="char-sprite char-sprite--xl" id="welcomeChar">
+                    <div class="speech-bubble speech-bubble--left">
+                        <p><strong>¡BIENVENIDO, AVENTURERO!</strong></p>
+                        <p class="speech-sub">Soy Azor, tu guía de expedición financiera. Juntos escalaremos la montaña de tu situación económica para descubrir dónde estás hoy y dónde puedes llegar mañana.</p>
+                        <p class="speech-sub">Pero primero... ¿cómo te llamas, explorador?</p>
+                    </div>
+                </div>
+
+                <div class="name-input-area">
+                    <label for="userNameInput" class="input-label">⛺ TU NOMBRE DE EXPLORADOR:</label>
+                    <input type="text" required id="userNameInput" class="pixel-input" placeholder="Escribe tu nombre..." maxlength="20" autocomplete="off" spellcheck="false">
+                </div>
+
+                <button id="startButton" class="pixel-btn pixel-btn--primary">
+                    ¡COMENZAR LA EXPEDICIÓN!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PANTALLA 2: EXPEDICIÓN (CUESTIONARIO) ==================== -->
+    <div id="expeditionScreen" class="screen">
+        <header class="expedition-header">
+            <div class="header-logo">⛰️ CAMPAMENTO FINANCIERO</div>
+            <div class="header-progress">
+                <span class="progress-label">📍 <span id="sectionLabel">Campamento</span></span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <span class="progress-text" id="progressText">1 / 14</span>
+            </div>
+            <div class="header-user">🧭 <span id="headerUsername">Explorador</span></div>
+        </header>
+
+        <div class="expedition-body">
+
+            <!-- Panel izquierdo: Pregunta + Azor -->
+            <div class="expedition-left">
+                <div class="section-badge" id="sectionBadge">
+                    <span id="sectionIcon">🏕️</span>
+                    <span id="sectionTitleText">Provisiones del Campamento</span>
+                </div>
+
+                <div class="azor-question-area">
+                    <div class="azor-sprite-wrapper">
+                        <img src="assets/sprites/character.png" alt="Azor" class="char-sprite char-sprite--md" id="expeditionChar">
+                        <div class="char-shadow"></div>
+                    </div>
+                    <div class="speech-bubble speech-bubble--right" id="azorBubble">
+                        <p id="azorMessage">Cargando...</p>
+                    </div>
+                </div>
+
+                <form id="questionForm" class="question-form" autocomplete="off" novalidate>
+                    <div class="question-header">
+                        <span class="question-icon" id="questionIcon">💰</span>
+                        <h2 class="question-title" id="questionTitle">Pregunta de la expedición</h2>
+                    </div>
+                    <div class="input-group">
+                        <span class="currency-symbol">€</span>
+                        <input type="number" id="answerInput" class="pixel-input pixel-input--currency"
+                               placeholder="0" min="0" step="1" inputmode="decimal">
+                    </div>
+                    <p class="mountain-context" id="mountainContext">Contexto de montaña...</p>
+                    <div class="form-actions">
+                        <button type="button" id="backButton" class="pixel-btn pixel-btn--secondary">◄ Atrás</button>
+                        <button type="submit" id="nextButton" class="pixel-btn pixel-btn--primary">Siguiente ►</button>
+                    </div>
+                </form>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <!-- ==================== PANTALLA 3: RESULTADOS (DASHBOARD) ==================== -->
+    <div id="resultScreen" class="screen">
+        <div class="dashboard-layout" id="dashboardLayout">
+
+            <!-- Sidebar -->
+            <nav class="dashboard-sidebar" id="dashboardSidebar">
+                <div class="sidebar-logo">
+                    <span class="sidebar-logo-icon">⛰️</span>
+                    <div>
+                        <div class="sidebar-logo-name">CAMPAMENTO</div>
+                        <div class="sidebar-logo-sub">FINANCIERO</div>
+                        <div class="sidebar-logo-tag">EXPEDICIÓN A TU LIBERTAD FINANCIERA</div>
+                    </div>
+                </div>
+                
+                <button class="pixel-btn pixel-btn--secondary restart-btn" id="restartBtn">
+                    🔄 Nueva Expedición
+                </button>
+                <div class="sidebar-section">
+    <h3 class="sidebar-title">🗺️ ESTACIONES</h3>
+
+    <div class="sidebar-milestones">
+
+        <div class="sidebar-milestone" id="sidebar-ms-1">
+            <span class="sidebar-milestone-icon">⛺</span>
+            <div class="sidebar-milestone-info">
+                <span class="sidebar-milestone-title">Campamento base</span>
+                <span class="sidebar-milestone-condition">
+                    Tienes por lo menos 3 meses de gastos ahorrados
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar-milestone" id="sidebar-ms-2">
+            <span class="sidebar-milestone-icon">🌲</span>
+            <div class="sidebar-milestone-info">
+                <span class="sidebar-milestone-title">El bosque</span>
+                <span class="sidebar-milestone-condition">
+                    Tus deudas de tarjetas no superan tus ingresos
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar-milestone" id="sidebar-ms-3">
+            <span class="sidebar-milestone-icon">🧗</span>
+            <div class="sidebar-milestone-info">
+                <span class="sidebar-milestone-title">Pared rocosa</span>
+                <span class="sidebar-milestone-condition">
+                    Tienes 1 año de libertad financiera
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar-milestone" id="sidebar-ms-4">
+            <span class="sidebar-milestone-icon">❄️</span>
+            <div class="sidebar-milestone-info">
+                <span class="sidebar-milestone-title">Valle de la nieve</span>
+                <span class="sidebar-milestone-condition">
+                    Tus inversiones cubren tus gastos básicos
+                </span>
+            </div>
+        </div>
+
+        <div class="sidebar-milestone" id="sidebar-ms-5">
+            <span class="sidebar-milestone-icon">🏔️</span>
+            <div class="sidebar-milestone-info">
+                <span class="sidebar-milestone-title">La cumbre</span>
+                <span class="sidebar-milestone-condition">
+                    ¡Ya no necesitas trabajar!
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+                <div class="sidebar-motto pixel-card--dark">
+                    <strong>RECUERDA</strong>
+                    No es una carrera para ver quien llega antes, se trata de disfrutar el camino.
+                </div>
+            </nav>
+
+            <!-- Main dashboard content -->
+            <main class="dashboard-main">
+
+                <!-- Top bar: Saludo + Días + PDF -->
+                <div class="dashboard-topbar">
+                    <div class="greeting-card pixel-card">
+                        <img src="assets/sprites/chibi.png" alt="ChibiAzor">
+                        <div>
+                            <h1 class="greeting-title">¡Hola, <span id="resultUsername">Explorador</span>! 👋</h1>
+                            <p class="greeting-sub">Cada paso cuenta. Sigue avanzando hacia tu cima.</p>
+                        </div>
+                    </div>
+                    
+                    <button class="pixel-btn pixel-btn--pdf" id="exportJpegBtn">
+                        🖼️ Exportar JPEG
+                    </button>
+                </div>
+
+                <!-- 4 KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card pixel-card kpi--green kpi-patrimonio">
+                        <div class="kpi-icon"><img src="assets/sprites/montain.png" alt="Montaña" class="kpi-icon-img"></div>
+                        <div class="kpi-content">
+                            <div class="kpi-label">ALTITUD ACTUAL</div>
+                            <div class="kpi-sublabel">Patrimonio neto</div>
+                            <div class="kpi-value" id="kpiPatrimonio">0 €</div>
+                            <div class="kpi-trend" id="kpiPatrimonioTrend"></div>
+                        </div>
+                    </div>
+                    <div class="kpi-card pixel-card kpi--blue">
+                        <div class="kpi-icon"><img src="assets/sprites/backpack.png" alt="Mochila" class="kpi-icon-img"></div>
+                        <div class="kpi-content">
+                            <div class="kpi-label">TERRENO CONSTRUIDO</div>
+                            <div class="kpi-sublabel">Activos totales</div>
+                            <div class="kpi-value" id="kpiActivos">0 €</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card pixel-card kpi--red">
+                        <div class="kpi-icon"><img src="assets/sprites/rock.png" alt="Roca" class="kpi-icon-img"></div>
+                        <div class="kpi-content">
+                            <div class="kpi-label">PESO QUE LLEVAS</div>
+                            <div class="kpi-sublabel">Pasivos totales</div>
+                            <div class="kpi-value" id="kpiPasivos">0 €</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card pixel-card kpi--gold">
+                        <div class="kpi-icon"><img src="assets/sprites/brujula.png" alt="Brújula" class="kpi-icon-img"></div>
+                        <div class="kpi-content">
+                            <div class="kpi-label">RITMO DE ASCENSO</div>
+                            <div class="kpi-sublabel">Tasa de ahorro</div>
+                            <div class="kpi-value" id="kpiAhorro">—%</div>
+                            <div class="kpi-trend" id="kpiAhorroNote"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle row: Mapa + Gráfico dona -->
+                <div class="middle-row">
+                    <!-- Mapa de expedición -->
+                    <div class="map-card pixel-card">
+                        <h3 class="card-title">🗺️ MAPA DE EXPEDICIÓN</h3>
+                        <div id="mapimage" class="expedition-map">
+                        <img src="assets/sprites/mapaexpedicion.png" class="mapBackground">
+                        <img src="assets/sprites/character.png" class="char-sprite--sm maploc-char">
+                        </div>
+                        
+                    </div>
+
+                    <!-- Gráfico dona: Distribución de la mochila -->
+                    <div class="donut-card pixel-card">
+                        <h3 class="card-title">🎒 DISTRIBUCIÓN DE TU MOCHILA</h3>
+                        <div class="donut-body">
+                            <div class="donut-container">
+                                <canvas id="donutChart" width="135" height="135"></canvas>
+                                <div class="donut-center-label">
+                                    <img src="assets/sprites/backpack.png" alt="Mochila" class="char-sprite char-sprite--xs">
+                                </div>
+                            </div>
+                            <div class="donut-legend" id="donutLegend"></div>
+                        </div>
+                        <div class="azor-donut-comment pixel-card--dark">
+                            <img src="assets/sprites/chibi.png" alt="ChibiAzor">
+                            <p id="donutComment">Analizando tu mochila...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom row: 6 resumen cards (Ingresos y Activos a la izq, Gastos y Pasivos a la dcha) -->
+                <div class="bottom-row">
+                    <div class="bottom-card pixel-card">
+                        <h4 class="card-title-sm">💰 SUMINISTROS MENSUALES</h4>
+                        <p class="bottom-label">Ingresos mensuales</p>
+                        <p class="bottom-value" id="bottomIngresos">0 €</p>
+                        <p class="bottom-sub">(nómina y rentas)</p>
+                    </div>
+                    <div class="bottom-card pixel-card">
+                        <h4 class="card-title-sm">🔥 CONSUMO DE RUTA</h4>
+                        <p class="bottom-label">Gastos mensuales</p>
+                        <p class="bottom-value bottom-value--red" id="bottomGastos">0 €</p>
+                        <p class="bottom-sub">(costes fijos y variables)</p>
+                    </div>
+                    <div class="bottom-card pixel-card">
+                        <h4 class="card-title-sm">🍫 PROVISIONES INMEDIATAS</h4>
+                        <p class="bottom-label">Activo corriente</p>
+                        <p class="bottom-value" id="bottomActivoCorriente">0 €</p>
+                        <p class="bottom-sub">(cuentas y ahorro)</p>
+                    </div>
+                    <div class="bottom-card pixel-card">
+                        <h4 class="card-title-sm">🪨 PESO LARGO PLAZO</h4>
+                        <p class="bottom-label">Pasivo largo plazo</p>
+                        <p class="bottom-value bottom-value--red" id="bottomPasivoLargo">0 €</p>
+                        <p class="bottom-sub">(hipoteca y préstamos)</p>
+                    </div>
+                    <div class="bottom-card pixel-card">
+                        <h4 class="card-title-sm">⛺ EQUIPAMIENTO TOTAL</h4>
+                        <p class="bottom-label">Activo no corriente</p>
+                        <p class="bottom-value" id="bottomActivoNoCorriente">0 €</p>
+                        <p class="bottom-sub">(inversiones y bienes)</p>
+                    </div>
+                    <div class="bottom-card pixel-card">
+                        <h4 class="card-title-sm">🥫 PESO URGENTE</h4>
+                        <p class="bottom-label">Pasivo corto plazo</p>
+                        <p class="bottom-value bottom-value--red" id="bottomPasivoCorto">0 €</p>
+                        <p class="bottom-sub">(tarjetas de crédito)</p>
+                    </div>
+                </div>
+
+                <!-- Consejo del guía (footer) -->
+                <div class="tip-banner">
+                    <span class="tip-icon">⭐</span>
+                    <div class="tip-content">
+                        <span class="tip-label">CONSEJO DEL GUÍA:</span>
+                        <span class="tip-text" id="azorTip">La constancia es tu mejor herramienta. No se trata de llegar rápido, sino de no detenerse.</span>
+                    </div>
+                    <img src="assets/sprites/character.png" alt="Azor" class="char-sprite char-sprite--xs tip-char">
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="data/questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
