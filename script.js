@@ -189,13 +189,13 @@ function showQuestion() {
     updateMapProgress(currentQuestionIndex);
     updateCheckpoints(currentQuestionIndex);
     
-    setTimeout(() => answerInput.focus(), 100);
 }
 
 function saveAnswer() {
     const q = questions[currentQuestionIndex];
     const val = parseFloat(answerInput.value) || 0;
     answers[q.id] = val;
+    answerInput.blur();
 }
 
 questionForm.addEventListener("submit", (e) => {
