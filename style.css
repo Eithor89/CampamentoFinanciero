@@ -339,13 +339,13 @@ body::after {
 .milestone-desc { font-family: var(--font-retro); font-size: 13px; color: var(--text-mid); margin-top: 1px; line-height: 1.2; }
 
 .result-mountain-svg { width:100%; height:auto; border:3px solid var(--pixel-border); box-shadow:4px 4px 0 var(--pixel-border); display:block; }
-.donut-body { display:flex; align-items:center; justify-content:space-around; gap:10px; margin-bottom:8px; }
+.donut-body { display:flex; align-items:center; justify-content:space-around; gap:30px; margin-bottom:8px; }
 .donut-container { position:relative; display:flex; align-items:center; justify-content:center; width:125px; height:125px; margin:0; flex-shrink:0; }
 .donut-center-label { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
-.donut-legend { display:flex; flex-direction:column; gap:3px; font-family:var(--font-retro); font-size:18px; flex:1; min-width:0; }
+.donut-legend { display:flex; flex-direction:column; gap:5px; font-family:var(--font-retro); font-size:18px; flex:1; min-width:0; }
 .legend-item { display:flex; align-items:center; gap:6px; }
 .legend-dot  { width:12px; height:12px; border:2px solid var(--pixel-border); flex-shrink:0; }
-.azor-donut-comment { display:flex; align-items:center; gap:8px; font-family:var(--font-retro); font-size:13px; line-height:1.3; padding: 6px 8px; }
+.azor-donut-comment { display:flex; align-items:center; gap:8px; font-family:var(--font-retro); font-size:16px; line-height:1.3; padding: 6px 8px; }
 .azor-donut-comment p { flex:1; }
 
 /* Bottom row */
@@ -531,12 +531,32 @@ body.is-exporting .dashboard-main {
     line-height: 1.2;
     color: var(--text-muted);
 }
-body.is-exporting .dashboard-main {
-    width: 1500px;
-    min-width: 0;
-    overflow: hidden;
-    box-sizing: border-box;
-}
+/* =========================
+   EXPORTACIÓN JPEG
+   ========================= */
+
 body.is-exporting .dashboard-layout {
-    grid-template-columns: 215px 1fr;
+    width: 1600px !important;
+    grid-template-columns: 215px 700px !important;
+}
+
+body.is-exporting .dashboard-main {
+    width: 1200px !important;
+    min-width: 700px !important;
+    max-width: 1200px !important;
+    height: 1040px !important;
+    overflow: hidden !important;
+}
+
+/* Mantener los grids internos en dos/cuatro columnas */
+body.is-exporting .kpi-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+
+body.is-exporting .middle-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+}
+
+body.is-exporting .bottom-row {
+    grid-template-columns: repeat(2, 1fr) !important;
 }
