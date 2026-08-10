@@ -1,4 +1,4 @@
-﻿/* ==========================================
+/* ==========================================
    AZOR FINANCIERO — Pixel Art Mountain Style
    ========================================== */
 
@@ -422,22 +422,70 @@ body.is-exporting #restartBtn {
    RESPONSIVE
    ========================================== */
 
+html, body { max-width: 100vw; overflow-x: hidden; }
+
 @media (max-width: 1050px) {
-    .kpi-grid   { grid-template-columns:repeat(2,1fr); }
-    .bottom-row { grid-template-columns:repeat(2,1fr); }
+    body:not(.is-exporting) .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    body:not(.is-exporting) .bottom-row { grid-template-columns: repeat(2, 1fr); }
 }
+
 @media (max-width: 850px) {
-    .expedition-body { grid-template-columns:1fr; }
-    .expedition-right { display:none; }
-    .middle-row { grid-template-columns:1fr; }
-    .dashboard-layout { grid-template-columns:1fr; }
-    .dashboard-sidebar { display:none; }
+    body:not(.is-exporting) .expedition-left { width: 100%; padding: 16px; }
+    body:not(.is-exporting) .middle-row { grid-template-columns: 1fr; }
+    body:not(.is-exporting) .dashboard-layout { grid-template-columns: 1fr; }
+    body:not(.is-exporting) .dashboard-sidebar {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 4px solid var(--mountain-mid);
+    }
+    body:not(.is-exporting) .expedition-map { height: auto; }
+    body:not(.is-exporting) .mapBackground { position: relative; height: auto; }
 }
+
 @media (max-width: 600px) {
-    .kpi-grid { grid-template-columns:1fr 1fr; }
-    .bottom-row { grid-template-columns:1fr 1fr; }
-    .logo-main { font-size:22px; }
-    .days-card { display:none; }
+    body:not(.is-exporting) .welcome-content { gap: 16px; padding: 0 12px; }
+    body:not(.is-exporting) .logo-main { font-size: 22px; word-wrap: break-word; }
+    body:not(.is-exporting) .logo-sub { font-size: 11px; word-wrap: break-word; }
+    body:not(.is-exporting) .logo-tagline { font-size: 14px; word-wrap: break-word; }
+    
+    body:not(.is-exporting) .welcome-card { padding: 12px; }
+    body:not(.is-exporting) .speech-bubble { font-size: 16px; }
+    body:not(.is-exporting) .speech-bubble .speech-sub { font-size: 16px; }
+    
+    body:not(.is-exporting) .expedition-header { flex-wrap: wrap; justify-content: center; padding: 10px; }
+    body:not(.is-exporting) .header-progress { width: 100%; order: 3; margin-top: 8px; }
+    
+    body:not(.is-exporting) .azor-question-area { gap: 10px; }
+    body:not(.is-exporting) #azorBubble { font-size: 18px; padding: 12px; }
+    body:not(.is-exporting) .question-title { font-size: 20px; }
+    body:not(.is-exporting) .mountain-context { font-size: 15px; }
+    
+    body:not(.is-exporting) .form-actions { justify-content: space-between; gap: 8px; }
+    body:not(.is-exporting) .form-actions .pixel-btn { flex: 1; justify-content: center; min-height: 44px; }
+
+    body:not(.is-exporting) .kpi-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    body:not(.is-exporting) .kpi-card { padding: 8px; flex-direction: column; align-items: center; text-align: center; }
+    body:not(.is-exporting) .kpi-icon-img { width: 60px; height: 60px; }
+    
+    body:not(.is-exporting) .bottom-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+    body:not(.is-exporting) .bottom-card { padding: 8px; }
+    
+    body:not(.is-exporting) .days-card { display: none; }
+    body:not(.is-exporting) .dashboard-topbar { flex-direction: column; align-items: stretch; }
+    body:not(.is-exporting) .greeting-card { width: 100%; }
+    
+    body:not(.is-exporting) .donut-body { flex-direction: column; gap: 16px; }
+}
+
+@media (max-width: 400px) {
+    body:not(.is-exporting) .azor-question-area { flex-direction: column; align-items: center; }
+    body:not(.is-exporting) .speech-bubble--right::before, 
+    body:not(.is-exporting) .speech-bubble--right::after { display: none; }
+    body:not(.is-exporting) #azorBubble { width: 100%; text-align: center; }
+    
+    body:not(.is-exporting) .kpi-grid { grid-template-columns: 1fr; }
+    body:not(.is-exporting) .bottom-row { grid-template-columns: 1fr; }
 }
 
 /* Scrollbar */
