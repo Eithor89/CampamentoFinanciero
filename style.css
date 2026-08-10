@@ -191,7 +191,7 @@ body::after {
 .progress-text { font-family:var(--font-pixel); font-size:7px; color:var(--gold); white-space:nowrap; }
 .header-user { font-family:var(--font-retro); font-size:20px; color:var(--mountain-light); white-space:nowrap; }
 
-.expedition-body { display:block; grid-template-columns:1fr 290px; flex:1; overflow:hidden; }
+.expedition-body { display:block; overflow:hidden; }
 
 .expedition-left {
     padding:24px 28px; display:flex; flex-direction:column; gap:16px;
