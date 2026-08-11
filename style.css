@@ -231,7 +231,7 @@ body::after {
 
 #resultScreen { background:var(--parchment); }
 
-.dashboard-layout { display:grid; grid-template-columns:215px 1fr; min-height:100vh; }
+.dashboard-layout { display:block; min-height:100vh; }
 
 /* Sidebar */
 .dashboard-sidebar {
@@ -589,10 +589,10 @@ body.is-exporting .dashboard-layout {
 }
 
 body.is-exporting .dashboard-main {
-    width: 1200px !important;
+    width: 1150px !important;
     min-width: 700px !important;
-    max-width: 1200px !important;
-    height: 1040px !important;
+    max-width: 1150px !important;
+    min-height: 1040px !important;
     overflow: hidden !important;
 }
 
