@@ -13,7 +13,7 @@ const questions = [
         icon: "🥪",
         type: "currency",
         section: "cash",
-        sectionTitle: "Provisiones del Campamento",
+        sectionTitle: "Provisiones",
         sectionIcon: "🏕️",
         category: "asset"
     },
@@ -25,7 +25,7 @@ const questions = [
         icon: "🍫",
         type: "currency",
         section: "cash",
-        sectionTitle: "Provisiones del Campamento",
+        sectionTitle: "Provisiones",
         sectionIcon: "🏕️",
         category: "asset"
     },
@@ -39,7 +39,7 @@ const questions = [
         icon: "🧗",
         type: "currency",
         section: "investments",
-        sectionTitle: "Equipamiento de Ascenso",
+        sectionTitle: "Equipamiento",
         sectionIcon: "⛏️",
         category: "asset"
     },
@@ -51,7 +51,7 @@ const questions = [
         icon: "🧭",
         type: "currency",
         section: "investments",
-        sectionTitle: "Equipamiento de Ascenso",
+        sectionTitle: "Equipamiento",
         sectionIcon: "⛏️",
         category: "asset"
     },
@@ -65,7 +65,7 @@ const questions = [
         icon: "🏠",
         type: "currency",
         section: "property",
-        sectionTitle: "Refugios y Vehiculos",
+        sectionTitle: "Refugios",
         sectionIcon: "🏔️",
         category: "asset"
     },
@@ -77,7 +77,7 @@ const questions = [
         icon: "🚗",
         type: "currency",
         section: "property",
-        sectionTitle: "Refugios y Vehiculos",
+        sectionTitle: "Vehiculos",
         sectionIcon: "🏔️",
         category: "asset"
     },
@@ -89,7 +89,7 @@ const questions = [
         icon: "🤝",
         type: "currency",
         section: "property",
-        sectionTitle: "Refugios y Vehiculos",
+        sectionTitle: "Prestados",
         sectionIcon: "🏔️",
         category: "asset"
     },
@@ -103,7 +103,7 @@ const questions = [
         icon: "🪨",
         type: "currency",
         section: "debts",
-        sectionTitle: "El Peso de la Mochila",
+        sectionTitle: "Peso",
         sectionIcon: "⚠️",
         category: "debt"
     },
@@ -115,7 +115,7 @@ const questions = [
         icon: "🥾",
         type: "currency",
         section: "debts",
-        sectionTitle: "El Peso de la Mochila",
+        sectionTitle: "Peso",
         sectionIcon: "⚠️",
         category: "debt"
     },
@@ -127,7 +127,7 @@ const questions = [
         icon: "⚙️",
         type: "currency",
         section: "debts",
-        sectionTitle: "El Peso de la Mochila",
+        sectionTitle: "Peso",
         sectionIcon: "⚠️",
         category: "debt"
     },
@@ -139,7 +139,7 @@ const questions = [
         icon: "👥",
         type: "currency",
         section: "debts",
-        sectionTitle: "El Peso de la Mochila",
+        sectionTitle: "Peso",
         sectionIcon: "⚠️",
         category: "debt"
     },
@@ -151,7 +151,7 @@ const questions = [
         icon: "🥫",
         type: "currency",
         section: "debts",
-        sectionTitle: "El Peso de la Mochila",
+        sectionTitle: "Peso",
         sectionIcon: "⚠️",
         category: "debt"
     },
@@ -165,7 +165,7 @@ const questions = [
         icon: "🏃",
         type: "currency",
         section: "income",
-        sectionTitle: "Ritmo de Ascenso",
+        sectionTitle: "Ritmo",
         sectionIcon: "🧗",
         category: "income"
     },
@@ -177,7 +177,7 @@ const questions = [
         icon: "🍂",
         type: "currency",
         section: "income",
-        sectionTitle: "Ritmo de Ascenso",
+        sectionTitle: "Ritmo",
         sectionIcon: "🧗",
         category: "income"
     }
