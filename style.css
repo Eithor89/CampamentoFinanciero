@@ -293,7 +293,7 @@ body::after {
 .kpi-content { flex:1; min-width:0; }
 .kpi-label    { font-family:var(--font-pixel); font-size:12px; color:var(--text-mid); letter-spacing:.5px; margin-bottom:2px; }
 .kpi-sublabel { font-family:var(--font-retro); font-size:15px; color:var(--text-mid); margin-bottom:4px; }
-.kpi-value    { font-family:var(--font-pixel); font-size:16px; word-break:break-all; margin-bottom:3px; line-height:1.5; }
+.kpi-value    { font-family:var(--font-pixel); font-size:14px; word-break:break-all; margin-bottom:3px; line-height:1.5; }
 .kpi-trend    { font-family:var(--font-retro); font-size:14px; }
 .kpi--green .kpi-value { color:var(--success-dark); }
 .kpi--blue  .kpi-value { color:var(--info-dark); }
@@ -591,8 +591,8 @@ body.is-exporting .dashboard-layout {
 body.is-exporting .dashboard-main {
     width: 1150px !important;
     min-width: 700px !important;
-    max-width: 1150px !important;
-    min-height: 1040px !important;
+    max-width: 1200px !important;
+    min-height: 1050px !important;
     overflow: hidden !important;
 }
 
