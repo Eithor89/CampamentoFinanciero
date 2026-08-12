@@ -306,7 +306,7 @@ function calculateAndShowResults() {
     if (tipText) {
         if (activoCorriente < gastos * 3) {
             tipText.innerText = "No tienes barritas energéticas. Reserva suficientes para cubrir al menos 3 a 6 meses de provisiones.";
-        } else if (pasivoCorto > 0) {
+        } else if (pasivoCorto > ingresos) {
             tipText.innerText = "Esa deuda de tarjeta es como llevar rocas en la mochila bajo una tormenta. ¡Prioriza pagarla para avanzar más ligero!";
         } else if (tasaAhorro < 10 && tasaAhorro > 0) {
             tipText.innerText = "Vas por buen camino, pero tu ritmo es algo lento. Revisa si puedes aligerar peso mensual (gastos) para escalar más rápido.";
