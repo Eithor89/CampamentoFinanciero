@@ -363,14 +363,15 @@ let characterPosition = {
     transform: "scaleX(1)"
 };
 
-milestoneChecks.forEach(ms => {
+for (const ms of milestoneChecks) {
     if (ms.fulfilled) {
         characterPosition.left = ms.left;
         characterPosition.top = ms.top;
         characterPosition.transform = ms.transform;
-        console.log(ms.fulfilled)
+    } else {
+        break;
     }
-});
+};
 
 mapCharacter.style.left = characterPosition.left + "%";
 mapCharacter.style.top = characterPosition.top + "%";
