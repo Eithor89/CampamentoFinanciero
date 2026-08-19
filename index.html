@@ -30,7 +30,7 @@
 
         <div class="welcome-content">
             <div class="logo-area">
-                <div class="logo-icon"><img src="assets/sprites/montain.png"></div>
+                <div class="logo-icon"><img src="assets/sprites/montain.png" alt="Montaña"></div>
                 <div class="logo-text">
                     <span class="logo-main">CAMPAMENTO</span>
                     <span class="logo-sub">FINANCIERO</span>
@@ -67,7 +67,7 @@
             <div class="header-progress">
                 <span class="progress-label">📍 <span id="sectionLabel">Campamento</span></span>
                 <div class="progress-bar-container">
-                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-bar" id="progressBar" role="progressbar" aria-valuemin="1" aria-valuemax="14" aria-valuenow="1" aria-label="Progreso de la expedición"></div>
                 </div>
                 <span class="progress-text" id="progressText">1 / 14</span>
             </div>
@@ -78,7 +78,7 @@
 
             <!-- Panel izquierdo: Pregunta + Azor -->
             <div class="expedition-left">
-                <div class="section-badge" id="sectionBadge">
+                <div class="section-badge" id="sectionBadge" aria-live="polite">
                     <span id="sectionIcon">🏕️</span>
                     <span id="sectionTitleText">Provisiones del Campamento</span>
                 </div>
@@ -88,7 +88,7 @@
                         <img src="assets/sprites/character.png" alt="Azor" class="char-sprite char-sprite--md" id="expeditionChar">
                         <div class="char-shadow"></div>
                     </div>
-                    <div class="speech-bubble speech-bubble--right" id="azorBubble">
+                    <div class="speech-bubble speech-bubble--right" id="azorBubble" aria-live="polite">
                         <p id="azorMessage">Cargando...</p>
                     </div>
                 </div>
@@ -96,14 +96,14 @@
                 <form id="questionForm" class="question-form" autocomplete="off" novalidate>
                     <div class="question-header">
                         <span class="question-icon" id="questionIcon">💰</span>
-                        <h2 class="question-title" id="questionTitle">Pregunta de la expedición</h2>
+                        <h2 class="question-title" id="questionTitle" aria-live="polite">Pregunta de la expedición</h2>
                     </div>
                     <div class="input-group">
-                        <span class="currency-symbol">€</span>
+                        <label for="answerInput" class="currency-symbol">€</label>
                         <input type="number" id="answerInput" class="pixel-input pixel-input--currency"
-                               placeholder="0" min="0" step="1" inputmode="decimal">
+                               placeholder="0" min="0" step="1" inputmode="decimal" aria-describedby="mountainContext" required>
                     </div>
-                    <p class="mountain-context" id="mountainContext">Contexto de montaña...</p>
+                    <p class="mountain-context" id="mountainContext" aria-live="polite">Contexto de montaña...</p>
                     <div class="form-actions">
                         <button type="button" id="backButton" class="pixel-btn pixel-btn--secondary">◄ Atrás</button>
                         <button type="submit" id="nextButton" class="pixel-btn pixel-btn--primary">Siguiente ►</button>
@@ -133,8 +133,7 @@
                 <button class="pixel-btn pixel-btn--pdf" id="exportJpegBtn">
                         🖼️ Exportar JPEG
                     </button>
-                
-                
+            </nav>
 
             <!-- Main dashboard content -->
             <main class="dashboard-main">
@@ -196,8 +195,8 @@
                     <div class="map-card pixel-card">
                         <h3 class="card-title">🗺️ MAPA DE EXPEDICIÓN</h3>
                         <div id="mapimage" class="expedition-map">
-                        <img src="assets/sprites/mapaexpedicion.png" class="mapBackground">
-                        <img src="assets/sprites/character.png" class="char-sprite--sm maploc-char">
+                        <img src="assets/sprites/mapaexpedicion.png" class="mapBackground" alt="Mapa ilustrado de la expedición">
+                        <img src="assets/sprites/character.png" class="char-sprite char-sprite--sm maploc-char" alt="Posición de Azor en el mapa">
                         </div>
                         
                     </div>
@@ -207,7 +206,7 @@
                         <h3 class="card-title">🎒 DISTRIBUCIÓN DE TU MOCHILA</h3>
                         <div class="donut-body">
                             <div class="donut-container">
-                                <canvas id="donutChart" width="135" height="135"></canvas>
+                                <canvas id="donutChart" width="135" height="135" role="img" aria-label="Distribución de activos"></canvas>
                                 <div class="donut-center-label">
                                     <img src="assets/sprites/backpack.png" alt="Mochila" class="char-sprite char-sprite--xs">
                                 </div>
@@ -242,11 +241,12 @@
                         <p class="bottom-sub">(cuentas y ahorro)</p>
                     </div>
                     <div class="bottom-card pixel-card">
-                        <h4 class="card-title-sm">🪨 PESO LARGO PLAZO</h4>
-                        <p class="bottom-label">Pasivo largo plazo</p>
-                        <p class="bottom-value bottom-value--red" id="bottomPasivoLargo">0 €</p>
-                        <p class="bottom-sub">(hipoteca y préstamos)</p>
+                        <h4 class="card-title-sm">🥫 PESO URGENTE</h4>
+                        <p class="bottom-label">Pasivo corto plazo</p>
+                        <p class="bottom-value bottom-value--red" id="bottomPasivoCorto">0 €</p>
+                        <p class="bottom-sub">(tarjetas de crédito)</p>
                     </div>
+                    
                     <div class="bottom-card pixel-card">
                         <h4 class="card-title-sm">⛺ EQUIPAMIENTO TOTAL</h4>
                         <p class="bottom-label">Activo no corriente</p>
@@ -254,10 +254,10 @@
                         <p class="bottom-sub">(inversiones y bienes)</p>
                     </div>
                     <div class="bottom-card pixel-card">
-                        <h4 class="card-title-sm">🥫 PESO URGENTE</h4>
-                        <p class="bottom-label">Pasivo corto plazo</p>
-                        <p class="bottom-value bottom-value--red" id="bottomPasivoCorto">0 €</p>
-                        <p class="bottom-sub">(tarjetas de crédito)</p>
+                        <h4 class="card-title-sm">🪨 PESO LARGO PLAZO</h4>
+                        <p class="bottom-label">Pasivo largo plazo</p>
+                        <p class="bottom-value bottom-value--red" id="bottomPasivoLargo">0 €</p>
+                        <p class="bottom-sub">(hipoteca y préstamos)</p>
                     </div>
                 </div>
 <button class="pixel-btn pixel-btn--secondary restart-btn" id="restartBtn">

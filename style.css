@@ -113,6 +113,7 @@ body::after {
     box-shadow: inset 2px 2px 0 rgba(0,0,0,0.12);
 }
 .pixel-input:focus { border-color: var(--gold); box-shadow: inset 2px 2px 0 rgba(0,0,0,0.12), 0 0 0 2px var(--gold); }
+.pixel-btn:focus-visible, .pixel-input:focus-visible { outline: 3px solid var(--info); outline-offset: 3px; }
 
 .char-sprite { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
 .char-sprite--xl  { width: 162px;  height: 254px; }
@@ -231,7 +232,7 @@ body::after {
 
 #resultScreen { background:var(--parchment); }
 
-.dashboard-layout { display:block; min-height:100vh; }
+.dashboard-layout { display:grid; grid-template-columns:215px minmax(0, 1fr); min-height:100vh; }
 
 /* Sidebar */
 .dashboard-sidebar {

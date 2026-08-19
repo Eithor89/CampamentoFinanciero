@@ -13,6 +13,7 @@ const userNameInput = document.getElementById("userNameInput");
 // Elementos Expedición
 const questionForm = document.getElementById("questionForm");
 const answerInput = document.getElementById("answerInput");
+answerInput.removeAttribute("min");
 const questionTitle = document.getElementById("questionTitle");
 const mountainContext = document.getElementById("mountainContext");
 const azorMessage = document.getElementById("azorMessage");
@@ -24,7 +25,6 @@ const progressBar = document.getElementById("progressBar");
 const progressText = document.getElementById("progressText");
 const headerUsername = document.getElementById("headerUsername");
 const sectionLabel = document.getElementById("sectionLabel");
-const charIndicator = document.getElementById("charIndicator");
 
 // Botones navegación
 const backButton = document.getElementById("backButton");
@@ -83,63 +83,6 @@ userNameInput.addEventListener("keydown", (e) => {
 // 2. LÓGICA DEL CUESTIONARIO (EXPEDICIÓN)
 // ==========================================
 
-function updateMapProgress(index) {
-    // Puntos clave en el mapa SVG:
-    // Base: 150, 372
-    // Bosque: 136, 285
-    // Pradera: 136, 214
-    // Pared: 145, 154
-    // Cumbre: 150, 92
-    
-    const totalQ = questions.length;
-    const p = index / (totalQ - 1);
-    
-    let x, y;
-    if (p < 0.25) { // Base a Bosque
-        const localP = p / 0.25;
-        x = 150 + (136 - 150) * localP;
-        y = 372 + (285 - 372) * localP;
-    } else if (p < 0.5) { // Bosque a Pradera
-        const localP = (p - 0.25) / 0.25;
-        x = 136 + (136 - 136) * localP;
-        y = 285 + (214 - 285) * localP;
-    } else if (p < 0.75) { // Pradera a Pared
-        const localP = (p - 0.5) / 0.25;
-        x = 136 + (145 - 136) * localP;
-        y = 214 + (154 - 214) * localP;
-    } else { // Pared a Cumbre
-        const localP = (p - 0.75) / 0.25;
-        x = 145 + (150 - 145) * localP;
-        y = 154 + (92 - 154) * localP;
-    }
-    
-    // Curva ligera para suavizar
-    const offsetX = Math.sin(p * Math.PI) * 10;
-    
-    if (charIndicator) {
-        charIndicator.setAttribute("transform", `translate(${x - offsetX}, ${y})`);
-    }
-}
-
-function updateCheckpoints(index) {
-    const totalQ = questions.length;
-    const p = index / (totalQ - 1);
-    
-    for (let i = 1; i <= 4; i++) {
-        const cp = document.getElementById(`cp-${i}`);
-        if(cp) {
-            const circle = cp.querySelector('circle');
-            if (p >= i * 0.25) {
-                circle.setAttribute('fill', '#ffd700');
-                circle.setAttribute('stroke', '#2c1a0e');
-            } else {
-                circle.setAttribute('fill', '#2d5016');
-                circle.setAttribute('stroke', '#c9a227');
-            }
-        }
-    }
-}
-
 function showQuestion() {
     const q = questions[currentQuestionIndex];
     
@@ -165,7 +108,7 @@ function showQuestion() {
     // Texto de Azor con nombre personalizado
     let msg = q.azorMessage || "";
     msg = msg.replace(/explorador/gi, userName);
-    azorMessage.innerHTML = msg;
+    azorMessage.textContent = msg;
     
     // Progreso
     const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
@@ -185,22 +128,29 @@ function showQuestion() {
         nextButton.innerHTML = "Siguiente ►";
     }
     
-    // Actualizar mapa
-    updateMapProgress(currentQuestionIndex);
-    updateCheckpoints(currentQuestionIndex);
-    
 }
 
 function saveAnswer() {
     const q = questions[currentQuestionIndex];
-    const val = parseFloat(answerInput.value) || 0;
+    const rawValue = answerInput.value.trim();
+    const val = rawValue === "" ? 0 : Number(rawValue);
+
+    if (!Number.isFinite(val)) {
+        answerInput.setCustomValidity("Introduce un importe válido.");
+        answerInput.reportValidity();
+        answerInput.focus();
+        return false;
+    }
+
+    answerInput.setCustomValidity("");
     answers[q.id] = val;
     answerInput.blur();
+    return true;
 }
 
 questionForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    saveAnswer();
+    if (!saveAnswer()) return;
     
     if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
@@ -212,7 +162,7 @@ questionForm.addEventListener("submit", (e) => {
 
 backButton.addEventListener("click", () => {
     if (currentQuestionIndex > 0) {
-        saveAnswer();
+        if (!saveAnswer()) return;
         currentQuestionIndex--;
         showQuestion();
     }
@@ -261,6 +211,7 @@ function calculateAndShowResults() {
     const gastos = answers["monthlyExpenses"] || 0;
     const ahorroMensual = ingresos - gastos;
     const tasaAhorro = ingresos > 0 ? (ahorroMensual / ingresos) * 100 : 0;
+    const hasFinancialData = Object.values(answers).some(value => value !== 0);
 
     // ==========================================
     // Actualizar UI del Dashboard
@@ -276,14 +227,19 @@ function calculateAndShowResults() {
     kpiAhorroElem.innerText = `${tasaAhorro.toFixed(1)}%`;
     
     // Tendencias/Notas
-    if (patrimonioNeto > 0) {
+    if (!hasFinancialData) {
+        document.getElementById("kpiPatrimonioTrend").innerText = "Sin datos suficientes";
+    } else if (patrimonioNeto > 0) {
         document.getElementById("kpiPatrimonioTrend").innerHTML = `<span style="color:var(--success)">▲ +Positivo</span>`;
     } else {
         document.getElementById("kpiPatrimonioTrend").innerHTML = `<span style="color:var(--danger)">▼ -Negativo</span>`;
     }
     
     const kpiAhorroNote = document.getElementById("kpiAhorroNote");
-    if (tasaAhorro >= 20) {
+    kpiAhorroElem.style.color = "";
+    if (!hasFinancialData) {
+        kpiAhorroNote.innerText = "Sin datos suficientes";
+    } else if (tasaAhorro >= 20) {
         kpiAhorroNote.innerHTML = "¡Excelente ritmo! 🚀";
         kpiAhorroElem.style.color = "var(--success-dark)";
     } else if (tasaAhorro > 0) {
@@ -304,7 +260,9 @@ function calculateAndShowResults() {
     // Consejos Dinámicos
     const tipText = document.getElementById("azorTip");
     if (tipText) {
-        if (activoCorriente < gastos * 3) {
+        if (!hasFinancialData) {
+            tipText.innerText = "Completa tus importes para descubrir tu punto de partida en la montaña.";
+        } else if (activoCorriente < gastos * 3) {
             tipText.innerText = "No tienes barritas energéticas. Reserva suficientes para cubrir al menos 3 a 6 meses de provisiones.";
         } else if (pasivoCorto > ingresos) {
             tipText.innerText = "Esa deuda de tarjeta es como llevar rocas en la mochila bajo una tormenta. ¡Prioriza pagarla para avanzar más ligero!";
@@ -324,31 +282,31 @@ function calculateAndShowResults() {
 
 const milestoneChecks = [
     {
-        fulfilled: activoCorriente >= gastos * 3,
+        fulfilled: hasFinancialData && gastos > 0 && activoCorriente >= gastos * 3,
         left: 10,
         top: 76,
         transform: "scaleX(-1)"
     },
     {
-        fulfilled: pasivoCorto < ingresos,
+        fulfilled: hasFinancialData && ingresos > 0 && pasivoCorto < ingresos,
         left: 23,
         top: 54,
         transform: "scaleX(-1)"
     },
     {
-        fulfilled: patrimonioNeto >= gastos * 12,
+        fulfilled: hasFinancialData && gastos > 0 && patrimonioNeto >= gastos * 12,
         left: 46,
         top: 47,
         transform: "scaleX(-1)"
     },
     {
-        fulfilled: inversiones >= gastos * 120,
+        fulfilled: hasFinancialData && gastos > 0 && inversiones >= gastos * 120,
         left: 66,
         top: 29,
         transform: "scaleX(-1)"
     },
     {
-        fulfilled: inversiones >= gastos * 300,
+        fulfilled: hasFinancialData && gastos > 0 && inversiones >= gastos * 300,
         left: 51,
         top: 8,
         transform: "scaleX(-1)"
@@ -373,21 +331,22 @@ for (const ms of milestoneChecks) {
     }
 };
 
-mapCharacter.style.left = characterPosition.left + "%";
-mapCharacter.style.top = characterPosition.top + "%";
-mapCharacter.style.transform = characterPosition.transform;
-
-// Colocamos el personaje en esa posición
-mapCharacter.style.left = characterPosition.left + "%";
-mapCharacter.style.top = characterPosition.top + "%";
-mapCharacter.style.transform = characterPosition.transform;
+if (mapCharacter) {
+    mapCharacter.style.left = characterPosition.left + "%";
+    mapCharacter.style.top = characterPosition.top + "%";
+    mapCharacter.style.transform = characterPosition.transform;
+}
 
     // ==========================================
     // Gráfico de Dona (Chart.js)
     // ==========================================
     
     const donutCanvas = document.getElementById('donutChart');
-    if (!donutCanvas) return;
+    if (!donutCanvas || typeof Chart === "undefined") {
+        const donutComment = document.getElementById("donutComment");
+        if (donutComment) donutComment.innerText = "No se pudo cargar el gráfico. Tus cifras siguen disponibles en el resumen.";
+        return;
+    }
     const ctx = donutCanvas.getContext('2d');
     
     // Preparar datos (solo activos para ver distribución de mochila positiva, o todo)
@@ -398,9 +357,11 @@ mapCharacter.style.transform = characterPosition.transform;
     const valVehiculo = answers["carValue"] || 0;
     const valOtros = answers["loansToOthers"] || 0;
     
-    const totalPositivo = valEfectivo + valInversiones + valVivienda + valVehiculo + valOtros;
+    const positiveValues = [valInversiones, valEfectivo, valVivienda, valVehiculo, valOtros]
+        .map(value => Math.max(value, 0));
+    const totalPositivo = positiveValues.reduce((total, value) => total + value, 0);
     
-    const dataValues = [valInversiones, valEfectivo, valVivienda, valVehiculo, valOtros];
+    const dataValues = positiveValues;
     const dataLabels = ['Inversiones', 'Efectivo', 'Vivienda', 'Vehículos', 'Otros'];
     const dataColors = ['#52b788', '#4cc9f0', '#f4a261', '#9b5de5', '#e76f51'];
     
@@ -482,8 +443,13 @@ mapCharacter.style.transform = characterPosition.transform;
     
     const donutComment = document.getElementById("donutComment");
     if (donutComment) {
-        if (totalPositivo === 0) {
+        const negativeAssets = [valEfectivo, valInversiones, valVivienda, valVehiculo, valOtros]
+            .filter(value => value < 0);
+
+        if (totalPositivo === 0 && negativeAssets.length === 0) {
             donutComment.innerText = "Tu mochila está vacía. ¡Es hora de empezar a recolectar provisiones!";
+        } else if (negativeAssets.length > 0) {
+            donutComment.innerText = "Hay saldos negativos en tu mochila. El gráfico muestra solo los activos positivos; revisa las pérdidas en el resumen.";
         } else if (valVivienda > (totalPositivo * 0.7)) {
             donutComment.innerText = "Gran parte de tu mochila es un refugio (vivienda). ¡Recuerda llevar provisiones líquidas!";
         } else if (valInversiones > (totalPositivo * 0.4)) {
@@ -500,6 +466,8 @@ mapCharacter.style.transform = characterPosition.transform;
 
 restartBtn.addEventListener("click", () => {
     currentQuestionIndex = 0;
+    userName = "Explorador";
+    userNameInput.value = "";
     // Reset answers
     for (const key in answers) delete answers[key];
     
@@ -509,7 +477,10 @@ restartBtn.addEventListener("click", () => {
 
 exportJpegBtn.addEventListener("click", () => {
     const element = document.querySelector('.dashboard-main');
-    if (!element) return;
+    if (!element || typeof html2canvas === "undefined") {
+        window.alert("La exportación no está disponible en este momento.");
+        return;
+    }
 
     document.body.classList.add('is-exporting');
 
@@ -526,6 +497,7 @@ exportJpegBtn.addEventListener("click", () => {
         document.body.classList.remove('is-exporting');
     }).catch(err => {
         console.error("JPEG export error:", err);
+        window.alert("No se pudo exportar el resumen.");
         document.body.classList.remove('is-exporting');
     });
 });
